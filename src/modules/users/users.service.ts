@@ -14,6 +14,11 @@ export class UsersService {
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
   ) {}
 
+  async getAllUsers(): Promise<UserDocument[] | null> {
+    const users = await this.userModel.find().exec();
+    return users;
+  }
+
   async create(
     createUserDto: CreateUserDto,
     imagePath: string | null,
@@ -23,7 +28,10 @@ export class UsersService {
     });
     if (exists) throw new ConflictException('Email already registered');
 
-    const hashedPassword = await bcrypt.hash(createUserDto.password, SALT_ROUNDS);
+    const hashedPassword = await bcrypt.hash(
+      createUserDto.password,
+      SALT_ROUNDS,
+    );
 
     const user = await this.userModel.create({
       ...createUserDto,
