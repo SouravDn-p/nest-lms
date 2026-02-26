@@ -14,8 +14,11 @@ export class UsersService {
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
   ) {}
 
-  async getAllUsers(): Promise<UserDocument[] | null> {
-    const users = await this.userModel.find().exec();
+  async getAllUsers(): Promise<SafeUser[]> {
+    const users = await this.userModel
+      .find()
+      .select('firstName lastName email role image createdAt updatedAt')
+      .lean<SafeUser[]>();
     return users;
   }
 
