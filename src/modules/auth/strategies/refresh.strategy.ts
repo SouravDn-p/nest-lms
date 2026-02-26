@@ -4,8 +4,8 @@ import { ExtractJwt, Strategy, StrategyOptions } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../../users/users.service';
 import type { Request } from 'express';
-import { JwtConfig } from 'src/config/jwt.config';
-import { JwtPayload, JwtUser } from 'src/types/auth.types';
+import { JwtConfig } from '../../../config/jwt.config';
+import { JwtPayload, JwtUser } from '../../../types/auth.types';
 
 @Injectable()
 export class RefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {

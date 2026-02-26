@@ -23,11 +23,11 @@ import { CreateUserDto } from '../users/dto/create-user.dto';
 import { LoginDto } from '../users/dto/login.dto';
 
 import { CreateUserResponse, SafeUser } from '../users/types/user.types';
-import { ApiResponse } from 'src/types/global';
-import type { JwtUser } from 'src/types/auth.types';
-import { Public } from 'src/decorators/public.decorator';
-import { CurrentUser } from 'src/decorators/current-user.decorator';
-import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
+import { ApiResponse } from '../../types/global';
+import type { JwtUser } from '../../types/auth.types';
+import { Public } from '../../decorators/public.decorator';
+import { CurrentUser } from '../../decorators/current-user.decorator';
+import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 
 const ACCESS_MAX_AGE  = 15 * 60 * 1000;
 const REFRESH_MAX_AGE = 7 * 24 * 60 * 60 * 1000;

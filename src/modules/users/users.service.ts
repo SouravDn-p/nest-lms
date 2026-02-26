@@ -33,7 +33,7 @@ export class UsersService {
     });
 
     return {
-      _id: (user._id as string).toString(),
+      _id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
@@ -56,7 +56,7 @@ export class UsersService {
     const user = await this.userModel.findById(id).exec();
     if (!user) return null;
     return {
-      _id: (user._id as string).toString(),
+      _id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,

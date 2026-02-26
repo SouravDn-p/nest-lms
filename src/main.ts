@@ -15,7 +15,6 @@ async function bootstrap(): Promise<void> {
     credentials: true,
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   app.use(cookieParser());
 
   app.useGlobalPipes(

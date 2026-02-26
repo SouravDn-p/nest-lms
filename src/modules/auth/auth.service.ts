@@ -7,8 +7,8 @@ import { CreateUserDto } from '../users/dto/create-user.dto';
 import { LoginDto } from '../users/dto/login.dto';
 import { CreateUserResponse, SafeUser } from '../users/types/user.types';
 import { UserRole } from '../users/schemas/user.schema';
-import { JwtPayload, JwtUser } from 'src/types/auth.types';
-import { JwtConfig } from 'src/config/jwt.config';
+import { JwtPayload, JwtUser } from '../../types/auth.types';
+import { JwtConfig } from '../../config/jwt.config';
 
 interface TokenPair {
   accessToken: string;
@@ -42,7 +42,7 @@ export class AuthService {
     const passwordMatch = await bcrypt.compare(loginDto.password, user.password);
     if (!passwordMatch) throw new UnauthorizedException('Invalid credentials');
 
-    const userId = (user._id as string).toString();
+    const userId = user.id;
     const tokens = await this.generateTokens(userId, user.email, user.role);
 
     await this.usersService.updateRefreshToken(userId, tokens.refreshToken);
