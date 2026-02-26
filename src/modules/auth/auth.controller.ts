@@ -23,13 +23,13 @@ import { CreateUserDto } from '../users/dto/create-user.dto';
 import { LoginDto } from '../users/dto/login.dto';
 
 import { CreateUserResponse, SafeUser } from '../users/types/user.types';
-import { ApiResponse } from '../../types/global';
-import type { JwtUser } from '../../types/auth.types';
-import { Public } from '../../decorators/public.decorator';
-import { CurrentUser } from '../../decorators/current-user.decorator';
-import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
+import { ApiResponse } from 'src/common/types/global';
+import type { JwtUser } from 'src/common/types/auth.types';
+import { Public } from 'src/common/decorators/public.decorator';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 
-const ACCESS_MAX_AGE  = 15 * 60 * 1000;
+const ACCESS_MAX_AGE = 15 * 60 * 1000;
 const REFRESH_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
 
 function buildCookieOptions(maxAge: number) {
@@ -91,8 +91,16 @@ export class AuthController {
   ): Promise<ApiResponse<{ user: SafeUser }>> {
     const result = await this.authService.login(loginDto);
 
-    res.cookie('accessToken',  result.accessToken,  buildCookieOptions(ACCESS_MAX_AGE));
-    res.cookie('refreshToken', result.refreshToken, buildCookieOptions(REFRESH_MAX_AGE));
+    res.cookie(
+      'accessToken',
+      result.accessToken,
+      buildCookieOptions(ACCESS_MAX_AGE),
+    );
+    res.cookie(
+      'refreshToken',
+      result.refreshToken,
+      buildCookieOptions(REFRESH_MAX_AGE),
+    );
 
     return ApiResponse.success({ user: result.user });
   }
@@ -109,8 +117,16 @@ export class AuthController {
   ): Promise<ApiResponse<null>> {
     const tokens = await this.authService.refresh(user);
 
-    res.cookie('accessToken',  tokens.accessToken,  buildCookieOptions(ACCESS_MAX_AGE));
-    res.cookie('refreshToken', tokens.refreshToken, buildCookieOptions(REFRESH_MAX_AGE));
+    res.cookie(
+      'accessToken',
+      tokens.accessToken,
+      buildCookieOptions(ACCESS_MAX_AGE),
+    );
+    res.cookie(
+      'refreshToken',
+      tokens.refreshToken,
+      buildCookieOptions(REFRESH_MAX_AGE),
+    );
 
     return ApiResponse.success(null);
   }
@@ -137,7 +153,9 @@ export class AuthController {
   async me(
     @CurrentUser() user: JwtUser,
   ): Promise<ApiResponse<SafeUser | null>> {
-    const safeUser = await this.authService['usersService'].findSafeById(user.userId);
+    const safeUser = await this.authService['usersService'].findSafeById(
+      user.userId,
+    );
     return ApiResponse.success(safeUser);
   }
 }

@@ -12,7 +12,7 @@ import { RefreshStrategy } from './strategies/refresh.strategy';
   imports: [
     UsersModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register({}), // secrets injected per-call in auth.service.ts
+    JwtModule.register({}),
     MulterModule.register({ dest: './uploads/avatars' }),
   ],
   controllers: [AuthController],
